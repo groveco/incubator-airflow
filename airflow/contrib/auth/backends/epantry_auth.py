@@ -26,6 +26,7 @@ from flask_oauthlib.client import OAuth
 from airflow import models, configuration, settings
 from airflow.utils.db import provide_session
 import logging
+import json
 
 _log = logging.getLogger(__name__)
 
@@ -102,7 +103,7 @@ class EpantryAuthBackend(object):
         return self.epantry_oauth.authorize(callback=url_for('oauth_authorized', _external=True))
 
     def authorize_user(self, user):
-        if 'is_staff' in user and user.get('is_staff') is True:
+        if 'is-staff' in user and user.get('is-staff') is True:
             return True
         else:
             return False
@@ -131,9 +132,11 @@ class EpantryAuthBackend(object):
             epantry_token = {
                 'access_token': resp['access_token']
             }
-            epantry_user = self.epantry_oauth.get('api/customer/', token=epantry_token).data
+            epantry_session = json.loads(self.epantry_oauth.get('api/session/', token=epantry_token).data)
+            epantry_user_resp = json.loads(self.epantry_oauth.get('api/customer/%s' % epantry_session['data']['relationships']['customer']['data']['id'], token=epantry_token).data)
+            epantry_user = epantry_user_resp.get('data').get('attributes')
             print epantry_user
-            username = epantry_user.get('full_name')
+            username = epantry_user.get('full-name')
             email = epantry_user.get('email')
             print epantry_user, email
 
