@@ -27,6 +27,7 @@ from airflow import models, configuration, settings
 from airflow.utils.db import provide_session
 import logging
 import json
+import os
 
 _log = logging.getLogger(__name__)
 
@@ -87,9 +88,9 @@ class EpantryAuthBackend(object):
             consumer_key=get_config_param('oauth_id'),
             consumer_secret=get_config_param('oauth_secret'),
             request_token_params={'scope': 'read'},
-            base_url='https://www.grove.co/api',
-            access_token_url='https://www.grove.co/api/o/token/',
-            authorize_url='https://www.grove.co/api/o/authorize/')
+            base_url=os.getenv('OAUTH_BASE_URL', 'https://www.grove.co/api'),
+            access_token_url=os.getenv('OAUTH_ACCESS_TOKEN_URL', 'https://www.grove.co/api/o/token/'),
+            authorize_url=os.getenv('OAUTH_AUTHORIZE_URL', 'https://www.grove.co/api/o/authorize/'))
 
         self.login_manager.user_loader(self.load_user)
 
