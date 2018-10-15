@@ -101,7 +101,7 @@ class EpantryAuthBackend(object):
 
     def login(self, request):
         _log.debug('Logging in via ePantry')
-        return self.epantry_oauth.authorize(callback=url_for('oauth_authorized', _external=True))
+        return self.epantry_oauth.authorize(callback=url_for('oauth_authorized', _scheme='https', _external=True))
 
     def authorize_user(self, user):
         if 'is-staff' in user and user.get('is-staff') is True:
