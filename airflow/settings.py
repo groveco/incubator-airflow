@@ -27,6 +27,8 @@ from sqlalchemy.pool import NullPool
 
 from airflow import configuration as conf
 
+# use https for generating external URLs when not in a request context
+PREFERRED_URL_SCHEME = 'https'
 
 class DummyStatsLogger(object):
 
