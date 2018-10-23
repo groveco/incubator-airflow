@@ -27,8 +27,6 @@ from sqlalchemy.pool import NullPool
 
 from airflow import configuration as conf
 
-# use https for generating external URLs when not in a request context
-PREFERRED_URL_SCHEME = 'https'
 
 class DummyStatsLogger(object):
 
@@ -74,6 +72,11 @@ LOGGING_LEVEL = logging.INFO
 
 # the prefix to append to gunicorn worker processes after init
 GUNICORN_WORKER_READY_PREFIX = "[ready] "
+
+GUNICORN_CMD_ARGS = '--forwarded-allow-ips="*"'
+ENABLE_PROXY_FIX = True
+# use https for generating external URLs when not in a request context
+PREFERRED_URL_SCHEME = 'https'
 
 # can't move this to conf due to ConfigParser interpolation
 LOG_FORMAT = (
