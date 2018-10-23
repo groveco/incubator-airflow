@@ -21,7 +21,7 @@ flask-login==0.2.11
 Flask-WTF
 flower
 future
-gunicorn
+gunicorn==19.7.0
 hdfs
 hive-thrift-py
 impyla
