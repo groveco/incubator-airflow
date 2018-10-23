@@ -41,6 +41,9 @@ class HttpHook(BaseHook):
         if not self.base_url.startswith('http'):
             self.base_url = 'http://' + self.base_url
 
+        # ssl errr-thing!
+        self.base_url = 'https://' + conn.host
+
         if conn.port:
             self.base_url = self.base_url + ":" + str(conn.port) + "/"
         if conn.login:
